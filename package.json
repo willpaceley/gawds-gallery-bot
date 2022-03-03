@@ -1,0 +1,18 @@
+{
+  "name": "gawds-gallery-bot",
+  "version": "0.0.1",
+  "description": "Discord bot that allows users to easily display any particular gawd in a channel.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dubpace",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.10.0"
+  }
+}
