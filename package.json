@@ -7,8 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Dubpace",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pace0033/gawds-gallery-bot"
+  },
   "license": "ISC",
   "dependencies": {
+    "@discordjs/builders": "^0.12.0",
+    "@discordjs/rest": "^0.3.0",
+    "discord-api-types": "^0.27.3",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0"
   },
