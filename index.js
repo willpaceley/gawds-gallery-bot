@@ -8,43 +8,35 @@ dotenv.config();
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
+/* --- COMMAND HANDLING --- */
+
 // Add commands property to client instance
 client.commands = new Collection();
 // Get all files that end in .js in the commands directory
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-// Iterate over each file from the commands directory
+// Iterate over each js file from the commands directory
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	// Save command in commands collection, key is command name
 	client.commands.set(command.data.name, command);
 }
 
-// When the client is ready, run this code (only once)
-client.once('ready', () => {
-	console.log('Ready!');
-});
+/* --- EVENT HANDLING --- */
 
-// On interaction creation, execute callback function
-client.on('interactionCreate', async interaction => {
-	// If the interaction is not a command, exit function
-	if (!interaction.isCommand()) return;
+// Get all files in the events directory that end in .js
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
-	// Get the command from the commands Collection
-	const command = client.commands.get(interaction.commandName);
-
-	// If there is no command stored with that command name, exit function
-	if (!command) return;
-
-	// Execute the command
-	try {
-		await command.execute(interaction);
+// Iterate over each js file from events directory
+for (const file of eventFiles) {
+	const event = require(`./events/${file}`);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
 	}
-	catch (error) {
-		console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+	else {
+		client.on(event.name, (...args) => event.execute(...args));
 	}
-});
+}
 
 // Login to Discord with your client's token
 client.login(process.env.DISCORD_TOKEN);
