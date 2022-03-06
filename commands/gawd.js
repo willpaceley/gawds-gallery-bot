@@ -38,6 +38,27 @@ const cults = [
 	},
 ];
 
+const cultSymbols = {
+	'Divine': '✧',
+	'Chaos': '⦲',
+	'Mystic': '☾',
+	'Dark': '❍',
+	'Spirit': '⧂',
+	'Oblivion': '⨙',
+	'Corporeal': '⩀',
+	'Creature': '⧰',
+	'Verdure': '❖',
+	'Toxic': '⦵',
+	'Mundane': '⬙',
+	'Aqueous': '⏆',
+	'Cosmos': '✶',
+	'Inferno': '◊',
+	'Geological': '◍',
+	'Automoton': '⬡',
+	'Numerary': '☉',
+	'Alchemy': '⦓',
+};
+
 function determineCult(dominantPower) {
 	const cultMatch = cults.find(cult => cult.powers.includes(dominantPower));
 	return cultMatch.name;
@@ -77,6 +98,7 @@ module.exports = {
 				.addFields(
 					{ name: 'ID', value : String(id), inline: true },
 					{ name: 'Cult', value: determineCult(dominantPower), inline: true },
+					{ name: 'Dominant Power', value: `${cultSymbols[dominantPower]} ${dominantPower}`, inline: true },
 				)
 				.setImage(image);
 
