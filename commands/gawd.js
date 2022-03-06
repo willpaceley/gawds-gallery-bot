@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { MessageEmbed } = require('discord.js');
 const fetch = require('node-fetch');
 
 module.exports = {
@@ -17,7 +18,8 @@ module.exports = {
 		await interaction.deferReply();
 
 		try {
-			const { name } = await fetch(`https://www.gawds.xyz/api/gawds/${id}`)
+			// Fetch the data we need for the embed
+			const { name, external_url, image } = await fetch(`https://www.gawds.xyz/api/gawds/${id}`)
 				.then(response => {
 					// Check if the API returns a Gawd for the ID specified
 					if (!response.ok) {
@@ -25,8 +27,15 @@ module.exports = {
 					}
 					return response.json();
 				});
-			// console.log(name);
-			await interaction.editReply(`Displaying Gawd #${id} ${name}`);
+
+			// Create embed for message reply
+			const embed = new MessageEmbed()
+				.setColor('#D0034C')
+				.setTitle(name)
+				.setURL(external_url)
+				.setImage(image);
+
+			await interaction.editReply({ embeds: [embed] });
 		}
 		catch (error) {
 			await interaction.editReply(error.message);
