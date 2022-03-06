@@ -2,6 +2,52 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const fetch = require('node-fetch');
 
+const cults = [
+	{
+		name: 'Arcane 🩸',
+		powers: [
+			'Divine',
+			'Chaos',
+			'Mystic',
+			'Dark',
+			'Spirit',
+			'Oblivion',
+		],
+	},
+	{
+		name: 'Terrene 🌙',
+		powers: [
+			'Corporeal',
+			'Creature',
+			'Verdure',
+			'Toxic',
+			'Mundane',
+			'Aqueous',
+		],
+	},
+	{
+		name: 'Astral ✨',
+		powers: [
+			'Cosmos',
+			'Inferno',
+			'Geological',
+			'Automoton',
+			'Numerary',
+			'Alchemy',
+		],
+	},
+];
+
+function determineCult(dominantPower) {
+	let cultMatch;
+	cults.forEach(cult => {
+		if (cult.powers.includes(dominantPower)) {
+			cultMatch = cult.name;
+		}
+	});
+	return cultMatch;
+}
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('gawd')
@@ -19,7 +65,7 @@ module.exports = {
 
 		try {
 			// Fetch the data we need for the embed
-			const { name, external_url, image } = await fetch(`https://www.gawds.xyz/api/gawds/${id}`)
+			const { name, external_url, image, dominantPower } = await fetch(`https://www.gawds.xyz/api/gawds/${id}`)
 				.then(response => {
 					// Check if the API returns a Gawd for the ID specified
 					if (!response.ok) {
@@ -33,6 +79,10 @@ module.exports = {
 				.setColor('#D0034C')
 				.setTitle(name)
 				.setURL(external_url)
+				.addFields(
+					{ name: 'ID', value : String(id), inline: true },
+					{ name: 'Cult', value: determineCult(dominantPower), inline: true },
+				)
 				.setImage(image);
 
 			await interaction.editReply({ embeds: [embed] });
