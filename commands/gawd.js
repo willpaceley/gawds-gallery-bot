@@ -38,7 +38,7 @@ const cults = [
 	},
 ];
 
-const cultSymbols = {
+const powerSymbols = {
 	'Divine': '✧',
 	'Chaos': '⦲',
 	'Mystic': '☾',
@@ -98,7 +98,7 @@ module.exports = {
 				.addFields(
 					{ name: 'ID', value : String(id), inline: true },
 					{ name: 'Cult', value: determineCult(dominantPower), inline: true },
-					{ name: 'Dominant Power', value: `${cultSymbols[dominantPower]} ${dominantPower}`, inline: true },
+					{ name: 'Dominant Power', value: `${powerSymbols[dominantPower]} ${dominantPower}`, inline: true },
 				)
 				.setImage(image);
 
