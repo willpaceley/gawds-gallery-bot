@@ -39,13 +39,8 @@ const cults = [
 ];
 
 function determineCult(dominantPower) {
-	let cultMatch;
-	cults.forEach(cult => {
-		if (cult.powers.includes(dominantPower)) {
-			cultMatch = cult.name;
-		}
-	});
-	return cultMatch;
+	const cultMatch = cults.find(cult => cult.powers.includes(dominantPower));
+	return cultMatch.name;
 }
 
 module.exports = {
