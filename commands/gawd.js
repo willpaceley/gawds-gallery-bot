@@ -75,12 +75,14 @@ module.exports = {
 				.setRequired(true)),
 	// The function that will be executed on calling the command
 	async execute(interaction) {
-		const id = interaction.options.getInteger('id');
 		// Immediately deferReply() so interaction token doesn't expire during fetch
 		await interaction.deferReply();
 
+		// Get user input ID option
+		const id = interaction.options.getInteger('id');
+
 		try {
-			// Fetch the data we need for the embed
+			// Fetch the properties we need for the embed
 			const { name, external_url, image, dominantPower } = await fetch(`https://www.gawds.xyz/api/gawds/${id}`)
 				.then(response => {
 					// Check if the API returns a Gawd for the ID specified
@@ -98,7 +100,7 @@ module.exports = {
 				.addFields(
 					{ name: 'ID', value : String(id), inline: true },
 					{ name: 'Cult', value: determineCult(dominantPower), inline: true },
-					{ name: 'Dominant Power', value: `${powerSymbols[dominantPower]} ${dominantPower}`, inline: true },
+					{ name: 'Dominant Power', value: `${dominantPower} ${powerSymbols[dominantPower]}`, inline: true },
 				)
 				.setImage(image);
 
